@@ -1156,18 +1156,18 @@ namespace ImSpinner
             for (int i = 0; i < numDivisions; i++) {
                 std::vector<ImVec2> newPoints;
                 for (int j = 0; j < points.size() - 2; j += 3) {
-                    ImVec2 p1 = points[j];
-                    ImVec2 p2 = points[j + 1];
-                    ImVec2 p3 = points[j + 2];
+                    ImVec2 lp1 = points[j];
+                    ImVec2 lp2 = points[j + 1];
+                    ImVec2 lp3 = points[j + 2];
 
-                    ImVec2 p4((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-                    ImVec2 p5((p2.x + p3.x) / 2, (p2.y + p3.y) / 2);
-                    ImVec2 p6((p3.x + p1.x) / 2, (p3.y + p1.y) / 2);
+                    ImVec2 lp4((lp1.x + lp2.x) / 2, (lp1.y + lp2.y) / 2);
+                    ImVec2 lp5((lp2.x + lp3.x) / 2, (lp2.y + lp3.y) / 2);
+                    ImVec2 lp6((lp3.x + lp1.x) / 2, (lp3.y + lp1.y) / 2);
 
-                    pushPoints(newPoints, p1, p4, p6);
-                    pushPoints(newPoints, p4, p5, p6);
-                    pushPoints(newPoints, p4, p2, p5);
-                    pushPoints(newPoints, p6, p5, p3);
+                    pushPoints(newPoints, lp1, lp4, lp6);
+                    pushPoints(newPoints, lp4, lp5, lp6);
+                    pushPoints(newPoints, lp4, lp2, lp5);
+                    pushPoints(newPoints, lp6, lp5, lp3);
                 }
                 points = newPoints;
             }
@@ -2151,24 +2151,24 @@ namespace ImSpinner
         {
             const float a = rstart + (i * angle_offset);
             const float t = (i == 1 ? 0.7f : 1.f) * thickness;
-            const ImVec2 pos = ImVec2(centre.x + ImCos(a) * radius1, centre.y + ImSin(a) * radius1);
-            window->DrawList->AddCircleFilled(pos, t, color_alpha(color, 1.f), num_segments);
-            if (i == 0) frontpos = pos; else backpos = pos;
+            const ImVec2 lpos = ImVec2(centre.x + ImCos(a) * radius1, centre.y + ImSin(a) * radius1);
+            window->DrawList->AddCircleFilled(lpos, t, color_alpha(color, 1.f), num_segments);
+            if (i == 0) frontpos = lpos; else backpos = lpos;
         }
 
         ImVec2 lastpos;
         for (int i = 0; i <= balls * 2; i++)
         {
             const float a = -rstart + (i * angle_offset / 2.f);
-            const ImVec2 pos = ImVec2(centre.x + ImCos(a) * radius2, centre.y + ImSin(a) * radius2);
-            float t = sqrt(pow(pos.x - frontpos.x, 2) + pow(pos.y - frontpos.y, 2)) / (radius * 1.f) * thickness;
-            window->DrawList->AddCircleFilled(pos, t, color_alpha(color, 1.f), num_segments);
-            window->DrawList->AddLine(pos, backpos, color_alpha(color, 0.5f), ImMax(thickness / 2.f, 1.f));
+            const ImVec2 lpos = ImVec2(centre.x + ImCos(a) * radius2, centre.y + ImSin(a) * radius2);
+            float t = sqrt(pow(lpos.x - frontpos.x, 2) + pow(lpos.y - frontpos.y, 2)) / (radius * 1.f) * thickness;
+            window->DrawList->AddCircleFilled(lpos, t, color_alpha(color, 1.f), num_segments);
+            window->DrawList->AddLine(lpos, backpos, color_alpha(color, 0.5f), ImMax(thickness / 2.f, 1.f));
             if (i > 0) {
-              window->DrawList->AddLine(pos, lastpos, color_alpha(color, 1.f), ImMax(thickness / 2.f, 1.f));
+              window->DrawList->AddLine(lpos, lastpos, color_alpha(color, 1.f), ImMax(thickness / 2.f, 1.f));
             }
-            window->DrawList->AddLine(pos, frontpos, color_alpha(color, 1.f), ImMax(thickness / 2.f, 1.f));
-            lastpos = pos;
+            window->DrawList->AddLine(lpos, frontpos, color_alpha(color, 1.f), ImMax(thickness / 2.f, 1.f));
+            lastpos = lpos;
         }
     }
 
